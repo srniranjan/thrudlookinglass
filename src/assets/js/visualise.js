@@ -86,6 +86,7 @@ function remove_old_concepts(svg, concept_names){
 }
 
 function add_new_concepts(svg, dataset, xScale, yScale, rScale){
+	var color = d3.scale.category20();
 	svg.selectAll("circle")
 	 .data(dataset)
 	 .enter()
@@ -99,13 +100,14 @@ function add_new_concepts(svg, dataset, xScale, yScale, rScale){
 	 .attr("r", function(d) {
 		 return rScale(d.len_text);
 	 })
-	 .attr("class", "concept");			
+	 .attr("class", "concept")
+	 .attr("fill",function(d,i){return color(i);});	
 }
 
 function render_circles(xScale, yScale, dataset){
  	var rScale = d3.scale.linear()
                    .domain([0, d3.max(dataset, function(d) { return d.len_text; })])
-                   .range([2, 5]);
+                   .range([2, 15]);
 					   
 	var svg = d3.select("svg");
 	if($(".concept").length == 0){

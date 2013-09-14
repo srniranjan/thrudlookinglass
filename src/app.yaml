@@ -13,6 +13,9 @@ includes:
 - mapreduce/include.yaml
 
 handlers:
+- url: /pull_facebook_data
+  script: user_data.pull_data.app
+
 - url: /authenticate/.*
   script: handlers.web.authentication.app
 

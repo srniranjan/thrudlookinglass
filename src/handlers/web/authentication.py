@@ -17,7 +17,7 @@ def get_fb_auth_url(email):
     params = {
             'client_id': FB_APP_ID,
             'redirect_uri': FB_REDIRECT_URI,
-            'scope': '''email,user_checkins''',
+            'scope': '''email,user_status''',
             'state': email
             }
     url = 'https://www.facebook.com/dialog/oauth?' + urllib.urlencode(params)

@@ -56,49 +56,68 @@ function render_axes(xScale, yScale){
 	
 }
 
+function animate_existing_concepts(svg, dataset, concept_names, xScale, yScale, rScale){
+	svg.selectAll(".concept")
+	   .filter(function(d){
+			 return $.inArray(d.name, concept_names) >= 0;
+		 })
+	   .data(dataset)
+	   .transition()
+	   .duration(500)
+       .attr("cx", function(d) {
+	   	return xScale(d.occurances);
+	   })
+	   .attr("cy", function(d) {
+	   	return yScale(d.num_likes);
+	   })
+	   .attr("r", function(d) {
+	   	return rScale(d.len_text);
+	   });
+}
+
+function remove_old_concepts(svg, concept_names){
+	svg.selectAll(".concept")
+	   .filter(function(d){
+		   return $.inArray(d.name, concept_names) == -1;
+	   })
+	   .data([])
+	   .exit()
+	   .remove();
+}
+
+function add_new_concepts(svg, dataset, xScale, yScale, rScale){
+	svg.selectAll("circle")
+	 .data(dataset)
+	 .enter()
+	 .append("circle")
+	 .attr("cx", function(d) {
+	     return xScale(d.occurances);
+	    })
+	 .attr("cy", function(d) {
+	     return yScale(d.num_likes);
+	 })
+	 .attr("r", function(d) {
+		 return rScale(d.len_text);
+	 })
+	 .attr("class", "concept");			
+}
+
 function render_circles(xScale, yScale, dataset){
  	var rScale = d3.scale.linear()
                    .domain([0, d3.max(dataset, function(d) { return d.len_text; })])
                    .range([2, 5]);
-	var concept_names = [];
-	for(var i = 0; i < dataset.length; i++)
-		concept_names.push(dataset[i].name);
 					   
 	var svg = d3.select("svg");
 	if($(".concept").length == 0){
-		console.log('if');
-		svg.selectAll("circle")
-		 .data(dataset)
-		 .enter()
-		 .append("circle")
-		 .attr("cx", function(d) {
-		     return xScale(d.occurances);
-		    })
-		 .attr("cy", function(d) {
-		     return yScale(d.num_likes);
-		 })
-		 .attr("r", function(d) {
-			 return rScale(d.len_text);
-		 })
-		 .attr("class", "concept");		
+		add_new_concepts(svg, dataset, xScale, yScale, rScale);
 	}
 	else{
-		svg.selectAll(".concept")
-		   .filter(function(d){
-				 return $.inArray(d.name, concept_names) >= 0;
-			 })
-		   .data(dataset)
-		   .transition()
-		   .duration(500)
-           .attr("cx", function(d) {
-		   	return xScale(d.occurances);
-		   })
-		   .attr("cy", function(d) {
-		   	return yScale(d.num_likes);
-		   })
-		   .attr("r", function(d) {
-		   	return rScale(d.len_text);
-		   });
+		var concept_names = [];
+		for(var i = 0; i < dataset.length; i++)
+			concept_names.push(dataset[i].name);
+		animate_existing_concepts(svg, dataset, concept_names, xScale, yScale, rScale);
+		remove_old_concepts(svg, concept_names);
+		add_new_concepts(svg, dataset, xScale, yScale, rScale);
 	}
 }
 

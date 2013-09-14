@@ -28,21 +28,9 @@ data = {
                 "date":"Feb-2008",
         		"children":[
         			{
-        				"name":"concept-1",
-        				"occurances":3,
-        				"num_likes":10,
-        				"len_text":100
-        			},
-        			{
         				"name":"concept-2",
         				"occurances":50,
         				"num_likes":200,
-        				"len_text":100
-        			},
-        			{
-        				"name":"concept-3",
-        				"occurances":15,
-        				"num_likes":5,
         				"len_text":100
         			},
         		]
@@ -67,6 +55,18 @@ data = {
         				"occurances":40,
         				"num_likes":4,
         				"len_text":180
+        			},
+        			{
+        				"name":"concept-4",
+        				"occurances":20,
+        				"num_likes":10,
+        				"len_text":10
+        			},
+        			{
+        				"name":"concept-5",
+        				"occurances":5,
+        				"num_likes":40,
+        				"len_text":150
         			},
         		]
         	},

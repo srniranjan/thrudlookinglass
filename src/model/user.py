@@ -2,6 +2,7 @@ from google.appengine.ext import db
 
 class User(db.Model):
     email = db.StringProperty()
+    name = db.StringProperty(indexed=False)
     access_token = db.StringProperty(indexed=False)
 
     @classmethod                                                                                                                                                                 
@@ -9,6 +10,3 @@ class User(db.Model):
         kwds['email'] = key_name
         return super(User, cls).get_or_insert(key_name, **kwds)
    
-    def update_access_token(self, access_token):
-        self.access_token = access_token
-        self.put()

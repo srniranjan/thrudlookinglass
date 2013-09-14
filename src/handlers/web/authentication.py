@@ -40,8 +40,7 @@ class FacebookAuthenticateHandler(webapp2.RequestHandler):
         response = urlfetch.fetch(get_fb_token_url(email, code))
         access_token = response.content.split('&')[0].split('=')[1]
         user_profile = json.loads(urlfetch.fetch('https://graph.facebook.com/me?access_token=' + access_token).content)
-        user_object = User.get_or_insert(user_profile['email'])
-        user_object.update_access_token(access_token)
+        user_object = User.get_or_insert(user_profile['email'], name=user_profile['name'], access_token=access_token)
 
 app = webapp2.WSGIApplication([
                                ('/authenticate/facebook', FacebookAuthenticateHandler)

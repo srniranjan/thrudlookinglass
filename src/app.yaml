@@ -19,6 +19,9 @@ handlers:
 - url: /visualise
   script: handlers.web.index.app
 
+- url: /visualisation_data
+  script: handlers.rest.visualise.app
+
 - url: /assets/js
   static_dir: assets/js
 

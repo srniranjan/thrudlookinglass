@@ -1,7 +1,7 @@
 from google.appengine.ext import db
 
 class User(db.Model):
-    id = db.StringProperty(indexed=False)
+    id_ = db.StringProperty(indexed=False)
     email = db.StringProperty()
     name = db.StringProperty(indexed=False)
     access_token = db.StringProperty(indexed=False)

@@ -9,6 +9,9 @@ builtins:
 - remote_api: on
 - appstats: on
 
+includes:
+- mapreduce/include.yaml
+
 handlers:
 - url: /authenticate/.*
   script: handlers.web.authentication.app

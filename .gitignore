@@ -1,0 +1,17 @@
+*.pyc
+*~
+tags
+.#*
+*swp
+.ropeproject
+nohup.out
+.idea/
+.idlerc
+facebookconfig.py
+foursquareconfig.py
+.DS_Store
+.coverage
+htmlcov/
+twitter_config.py
+websiteconfig.py
+src/assets/js/config.js

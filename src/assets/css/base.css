@@ -1,0 +1,35 @@
+.home-title {
+    font-size: 5em;
+    color: blue;
+    opacity: 0.4;
+    line-height: 1em;
+    font-weight: 800;
+}
+
+.home-login {
+    font-size: 3em;
+    color: blue;
+    opacity: 0.9;
+    line-height: 1em;
+    text-align: center;
+}
+
+.home {
+    background-color: lightblue;
+    height: 100%;
+    padding: 0px;
+}
+
+.home-white {
+    background-color: white;
+    height: 100%;
+}
+
+@media(max-width:767px) {
+    .home-title {
+        font-size: 2em;
+    }
+    .home-login {
+        font-size: 1em;
+    }
+}

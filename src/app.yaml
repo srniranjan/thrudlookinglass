@@ -34,6 +34,9 @@ handlers:
 - url: /assets/css
   static_dir: assets/css
 
+- url: /assets/img
+  static_dir: assets/img
+
 - url: /analyze_with_calais
   script: handlers.web.invokecalais.app
   secure: always

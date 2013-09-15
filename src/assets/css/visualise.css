@@ -9,3 +9,7 @@
     font-family: sans-serif;
     font-size: 11px;
 }
+
+.concept {
+	fill-opacity: .5;
+}

@@ -5,8 +5,12 @@
 <head>
     <link href="/assets/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="/assets/css/base.css" type="text/css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato|Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+    {% block Styles %}{% endblock %}
+    <title>{% block Title %}Through The Looking Glass{% endblock %}</title>
 </head>
 <body class="home">
+    {% block Content %}
     <div class="row-fluid home-white">
         <div class="span12">
         </div>
@@ -49,8 +53,10 @@
         <div class="span4">
         </div>
     </div>
+    {% endblock %}
     <script src="/assets/js/lib/jquery.min.js"></script>
     <script src="/assets/js/lib/bootstrap.min.js"></script>
+    {% block Scripts %}{% endblock %}
 </body>
 </html>
 

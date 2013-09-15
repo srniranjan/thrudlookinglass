@@ -41,6 +41,11 @@ class FacebookAuthenticateHandler(webapp2.RequestHandler):
         access_token = response.content.split('&')[0].split('=')[1]
         user_profile = json.loads(urlfetch.fetch('https://graph.facebook.com/me?access_token=' + access_token).content)
         user_object = User.get_or_insert(user_profile['email'], id=user_profile['id'], name=user_profile['name'], access_token=access_token)
+        vals = {
+                'email':email
+                }
+        intermediate_path = os.path.join(os.path.dirname(__file__), '../../templates/momentary_message.html')
+        self.response.out.write(template.render(intermediate_path, vals))
 
 app = webapp2.WSGIApplication([
                                ('/authenticate/facebook', FacebookAuthenticateHandler)

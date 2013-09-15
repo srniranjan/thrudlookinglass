@@ -6,6 +6,15 @@
     font-weight: 800;
 }
 
+.home-message {
+    font-family: 'Lato';
+    font-size: 3em;
+    color: blue;
+    opacity: 0.4;
+    line-height: 1.5em;
+    font-weight: 400;
+}
+
 .home-login {
     font-size: 3em;
     color: blue;
@@ -31,5 +40,8 @@
     }
     .home-login {
         font-size: 1em;
+    }
+    .home-message {
+        font-size: 1.5em;
     }
 }

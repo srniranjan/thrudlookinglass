@@ -14,9 +14,9 @@ def calais_jobs_map(user_status):
     to_process_text = text
     if len(text) > 99000:
         to_process_text = text[:99000]
-    deferred.defer(analyze_with_calais, email, to_process_text, time, _queue="calaisanalyze")
+    deferred.defer(analyze_with_calais, email, user_status.likes, to_process_text, time, _queue="calaisanalyze")
 
-def analyze_with_calais(email, text, timestamp):
+def analyze_with_calais(email, likes, text, timestamp):
     result = calais.analyze(text.encode('utf-8'))
     calais_result = CalaisResults()
     calais_result.email = email
@@ -30,6 +30,7 @@ def analyze_with_calais(email, text, timestamp):
             entity_names.append(topic['categoryName'])
     calais_result.result = ' '.join(entity_names)
     calais_result.length = len(text)
+    calais_result.likes = likes
     calais_result.put()
 
 def calais_jobs_reduce():
@@ -58,9 +59,16 @@ class AnalyzeWithCalais(webapp2.RequestHandler):
 
 def prepare_data_map(calais_result):
     if calais_result.result and len(calais_result.result.strip()) > 0:
-        yield (time, result.split(' '))
+        for concept in calais_result.result.split(' '):
+            yield(calais_result.time + " : " + concept, (calais_result.time, calais_result.length))
 
 def prepare_data_reduce(key, values):
+    time, concept = key.split(" : ")
+    total_length = 0
+    total_likes = 0
+    for (length, likes) in values:
+        total_length += length
+        total_likes += likes
     yield key + " : " + len(values) + "\n" 
 
 class PrepareDataPipeline(base_handler.PipelineBase):

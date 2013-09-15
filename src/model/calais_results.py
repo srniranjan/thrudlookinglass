@@ -5,3 +5,4 @@ class CalaisResults(db.Model):
     time = db.StringProperty()
     result = db.TextProperty(indexed=False)
     length = db.IntegerProperty(indexed=False)
+    likes = db.IntegerProperty(indexed=False)

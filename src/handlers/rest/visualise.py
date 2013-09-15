@@ -16,7 +16,6 @@ def get_dict_for(concepts_by_date, time):
 
 class VisualisationDataHandler(webapp2.RequestHandler):
     def get(self):
-        logging.info("Here..")
         concepts_by_date = []
         data = {"children" : concepts_by_date}
         q = PreparedData.all()

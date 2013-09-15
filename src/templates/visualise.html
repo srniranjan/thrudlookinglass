@@ -5,10 +5,28 @@
 		<script type="text/javascript" src="/assets/js/lib/d3.v3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/lib/jquery.min.js"></script>
 		<script type="text/javascript" src="/assets/js/visualise.js"></script>
+		<script type="text/javascript" src="/assets/js/lib/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="/assets/css/visualise.css" />
+		<link href="/assets/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 	</head>
 	<body onload="initialize('{{ email }}');">
-		<select id="dates"/>
-		<button type="button">Animate!</button>
+		<div class="row-fluid" id="canvas">
+			<div class="span12">
+				
+			</div>
+		</div>
+		<div class="row-fluid" style="min-height:20px">
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<select id="dates" style="visibility:hidden;"/>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<input type="button" value="&lt; Prev" onclick="decrement();"/>
+				<input type="button" value="Next &gt;" onclick="increment();"/>
+			</div>
+		</div>
 	</body>
 </html>

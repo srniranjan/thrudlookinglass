@@ -2,6 +2,8 @@ var user_data = null;
 var w = 500;
 var h = 500;
 var padding = 40;
+var date_itr = {};
+var curr_idx = 0;
 
 function compare(a,b) {
 	var a_vals = String(a.date).split(':');
@@ -24,8 +26,9 @@ function compare(a,b) {
 function populate_dropdown(){
 	var dates = $("#dates");
 	sorted_dates = user_data.children.sort(compare);
-	$.each(sorted_dates, function() {
+	$.each(sorted_dates, function(i) {
 	    dates.append($("<option />").val(this.date).text(this.date));
+		date_itr[i] = this.date;
 	});
 }
 
@@ -55,12 +58,26 @@ function render_axes(xScale, yScale){
 	 if($(".axis").length == 0){
 		svg.append("g")
 		   .attr("class", "x axis")
-		   .attr("transform", "translate(0," + (h - (padding / 2)) + ")")
+		   .attr("transform", "translate(0," + (h - padding) + ")")
 		   .call(xAxis);
 		svg.append("g")
 			.attr("class", "y axis")
 			.attr("transform", "translate(" + padding + ",0)")
 			.call(yAxis);	 	
+		svg.append("text")
+		    .attr("class", "x label")
+		    .attr("text-anchor", "middle")
+		    .attr("x", w/2)
+		    .attr("y", h)
+		    .text("Occurances");
+		svg.append("text")
+		    .attr("class", "y label")
+		    .attr("text-anchor", "middle")
+			.attr("x", -(w/2))
+		    .attr("y", 6)
+		    .attr("dy", ".75em")
+		    .attr("transform", "rotate(-90)")
+		    .text("Likes");
 	 }
 	 else{
 		 d3.select(".x.axis")
@@ -159,7 +176,7 @@ function show_data_for(date){
 function initialize(email){
 	handle_date_events();
 	
-	var svg = d3.select("body")
+	var svg = d3.select("body > #canvas")
 	          .append("svg")
 	          .attr("width", w)
 	          .attr("height", h);
@@ -169,4 +186,29 @@ function initialize(email){
 		populate_dropdown();
 		$("#dates").change();
 	});
+}
+
+function increment(){
+	var new_idx = 0;
+	if(curr_idx == Object.keys(date_itr).length - 1){
+		new_idx = 0;
+	}
+	else{
+		new_idx = curr_idx + 1;
+	}
+	show_data_for(date_itr[new_idx]);
+	curr_idx = new_idx;
+	console.log(curr_idx);
+}
+
+function decrement(){
+	var new_idx = 0;
+	if(curr_idx == 0){
+		new_idx = Object.keys(date_itr).length - 1;
+	}
+	else{
+		new_idx = curr_idx - 1;
+	}
+	show_data_for(date_itr[new_idx]);
+	curr_idx = new_idx;
 }

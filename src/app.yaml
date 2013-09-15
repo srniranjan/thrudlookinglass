@@ -39,7 +39,9 @@ handlers:
 
 - url: /analyze_with_calais
   script: handlers.web.invokecalais.app
-  secure: always
+
+- url: /prepare_visualisation_data
+  script: handlers.web.invokecalais.app
 
 libraries:
 - name: django

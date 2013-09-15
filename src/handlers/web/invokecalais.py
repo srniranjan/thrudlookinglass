@@ -1,4 +1,6 @@
 import webapp2
+import logging
+
 from mapreduce import mapreduce_pipeline, base_handler
 from calais import Calais
 from model.calais_results import CalaisResults
@@ -61,19 +63,22 @@ class AnalyzeWithCalais(webapp2.RequestHandler):
 def prepare_data_map(calais_result):
     if calais_result.result and len(calais_result.result.strip()) > 0:
         for concept in calais_result.result.split(' '):
-            yield(calais_result.email + " : " + calais_result.time + " : " + concept, (calais_result.length, calais_result.likes))
+            yield(calais_result.email + " : " + calais_result.time + " : " + concept, str(calais_result.length) + " : "  + str(calais_result.likes))
 
 def prepare_data_reduce(key, values):
+    logging.info(values)
     email, time, concept = key.split(" : ")
     total_length = 0
     total_likes = 0
-    for (length, likes) in values:
-        total_length += length
-        total_likes += likes
+    for value in values:
+        logging.info('inside for')
+        length, likes = value.strip().split(' : ')
+        total_length += int(length)
+        total_likes += int(likes)
     prepared_data = PreparedData()
     prepared_data.time = time
     prepared_data.email = email
-    prepared_data.entity = concept
+    prepared_data.concept = concept
     prepared_data.num_occurances = len(values)
     prepared_data.num_likes = total_likes
     prepared_data.length = total_length

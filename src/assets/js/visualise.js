@@ -3,9 +3,28 @@ var w = 500;
 var h = 500;
 var padding = 40;
 
+function compare(a,b) {
+	var a_vals = String(a.date).split(':');
+	var b_vals = String(b.date).split(':');
+	var a_month = parseInt(a_vals[0]);
+	var a_year = parseInt(a_vals[1]);
+	var b_month = parseInt(b_vals[0]);
+	var b_year = parseInt(b_vals[1]);
+	if(a_year > b_year)//a > b
+		return 1;
+	if(a_year < b_year)//a < b
+		return -1;
+    if(a_year == b_year && a_month > b_month)//a > b
+		return 1;
+    if(a_year == b_year && a_month < b_month)//a < b
+		return -1;
+	return 0;
+}
+
 function populate_dropdown(){
 	var dates = $("#dates");
-	$.each(user_data.children, function() {
+	sorted_dates = user_data.children.sort(compare);
+	$.each(sorted_dates, function() {
 	    dates.append($("<option />").val(this.date).text(this.date));
 	});
 }
@@ -137,7 +156,7 @@ function show_data_for(date){
 	render_circles(xScale, yScale, dataset);
 }
 
-function initialize(){
+function initialize(email){
 	handle_date_events();
 	
 	var svg = d3.select("body")
@@ -145,7 +164,7 @@ function initialize(){
 	          .attr("width", w)
 	          .attr("height", h);
 
-	$.getJSON('/visualisation_data', function(data) {
+	$.getJSON('/visualisation_data?email=' + email, function(data) {
 		user_data = data;
 		populate_dropdown();
 		$("#dates").change();

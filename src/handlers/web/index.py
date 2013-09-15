@@ -9,7 +9,10 @@ from handlers.web.authentication import get_fb_auth_url
 class VisualisationHandler(webapp2.RequestHandler):
     def get(self):
         index_path = os.path.join(os.path.dirname(__file__), '../../templates/visualise.html')
-        self.response.out.write(template.render(index_path, None))
+        vals = {
+                'email':self.request.get("email")
+                }
+        self.response.out.write(template.render(index_path, vals))
 
 class HomepageHandler(webapp2.RequestHandler):
     def get(self):

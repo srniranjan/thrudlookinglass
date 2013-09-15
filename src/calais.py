@@ -159,6 +159,16 @@ class CalaisResponse():
         for item in self.entities:
             print "%s: %s (%.2f)" % (item['_type'], item['name'], item['relevance'])
 
+    def get_entities(self):
+        if not hasattr(self, "entities"):
+            return None
+        return self.entities
+
+    def get_topics(self):
+        if not hasattr(self, "topics"):
+            return None
+        return self.topics
+
     def print_topics(self):
         if not hasattr(self, "topics"):
             return None

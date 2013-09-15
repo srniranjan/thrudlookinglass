@@ -9,9 +9,9 @@ from google.appengine.api import urlfetch
 
 from model.user import User
 
-FB_APP_ID = '239096862911222'
-FB_APP_SECRET = 'c3e176bb4c15aaef406d8d5f2cafba0c'
-FB_REDIRECT_URI = 'http://thrudlookinglass.appspot.com/authenticate/facebook'
+FB_APP_ID = '568518829875712'
+FB_APP_SECRET = '5eb41aff45cc5d1965c7d4b0dc93cd7e'
+FB_REDIRECT_URI = 'http://haggle-staging.appspot.com/authenticate/facebook'
 
 def get_fb_auth_url(email):
     params = {

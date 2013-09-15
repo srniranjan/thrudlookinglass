@@ -26,16 +26,19 @@ def pull_statuses(email, url):
     if 'data' in result:
         for status in result['data']:
             if 'message' in status:
+                likes = 0
                 text = []
                 text.append(status['message'])
                 time = get_month_year(status['updated_time'])
                 if 'comments' in status:
                     for comment in status['comments']['data']:
                         text.append(comment['message'])
+                        likes += comment['like_count']
                 user_status = UserStatus()
                 user_status.text = '. '.join(text)
                 user_status.email = email
                 user_status.time = time
+                user_status.likes = likes
                 user_status.put()
 
 class PullFacebookDataHandler(webapp2.RequestHandler):

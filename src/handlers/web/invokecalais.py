@@ -2,6 +2,7 @@ import webapp2
 from mapreduce import mapreduce_pipeline, base_handler
 from calais import Calais
 from model.calais_results import CalaisResults
+from model.prepared_data import PreparedData
 from google.appengine.ext import deferred
 
 API_KEY = "4mq9g679ckr9ygudfppgxgaw"
@@ -60,16 +61,23 @@ class AnalyzeWithCalais(webapp2.RequestHandler):
 def prepare_data_map(calais_result):
     if calais_result.result and len(calais_result.result.strip()) > 0:
         for concept in calais_result.result.split(' '):
-            yield(calais_result.time + " : " + concept, (calais_result.time, calais_result.length))
+            yield(calais_result.email + " : " + calais_result.time + " : " + concept, (calais_result.length, calais_result.likes))
 
 def prepare_data_reduce(key, values):
-    time, concept = key.split(" : ")
+    email, time, concept = key.split(" : ")
     total_length = 0
     total_likes = 0
     for (length, likes) in values:
         total_length += length
         total_likes += likes
-    yield key + " : " + len(values) + "\n" 
+    prepared_data = PreparedData()
+    prepared_data.time = time
+    prepared_data.email = email
+    prepared_data.entity = concept
+    prepared_data.num_occurances = len(values)
+    prepared_data.num_likes = total_likes
+    prepared_data.length = total_length
+    prepared_data.put()
 
 class PrepareDataPipeline(base_handler.PipelineBase):
     def run(self, email):

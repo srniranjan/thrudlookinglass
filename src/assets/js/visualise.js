@@ -109,6 +109,20 @@ function animate_existing_concepts(svg, dataset, concept_names, xScale, yScale, 
 	   .attr("r", function(d) {
 	   	return rScale(d.len_text);
 	   });
+	   
+   	svg.selectAll(".concept-label")
+   	   .filter(function(d){
+   			 return $.inArray(d.name, concept_names) >= 0;
+   		 })
+   	   .data(dataset)
+   	   .transition()
+   	   .duration(500)
+          .attr("x", function(d) {
+   	   	return xScale(d.occurances);
+   	   })
+   	   .attr("y", function(d) {
+   	   	return yScale(d.num_likes);
+   	   });
 }
 
 function remove_old_concepts(svg, concept_names){
@@ -119,6 +133,14 @@ function remove_old_concepts(svg, concept_names){
 	   .data([])
 	   .exit()
 	   .remove();
+	   
+   	svg.selectAll(".concept-label")
+   	   .filter(function(d){
+   		   return $.inArray(d.name, concept_names) == -1;
+   	   })
+   	   .data([])
+   	   .exit()
+   	   .remove();
 }
 
 function add_new_concepts(svg, dataset, xScale, yScale, rScale){
@@ -137,7 +159,25 @@ function add_new_concepts(svg, dataset, xScale, yScale, rScale){
 		 return rScale(d.len_text);
 	 })
 	 .attr("class", "concept")
-	 .attr("fill",function(d,i){return color(i);});	
+	 .attr("fill",function(d,i){return color(i);});
+	 
+	 svg.selectAll(".concept-label")
+	 	.data(dataset)
+		.enter()
+		.append("text")
+		.text(function(d){
+			return d.name;
+		})
+		.attr("x", function(d) {
+        return xScale(d.occurances);
+	   })
+	   .attr("y", function(d) {
+	        return yScale(d.num_likes);
+	   })
+	   .attr("font-family", "sans-serif")
+	   .attr("font-size", "11px")
+	   .attr("fill", "red")
+	   .attr("class", "concept-label");
 }
 
 function render_circles(xScale, yScale, dataset){
@@ -198,7 +238,6 @@ function increment(){
 	}
 	show_data_for(date_itr[new_idx]);
 	curr_idx = new_idx;
-	console.log(curr_idx);
 }
 
 function decrement(){
